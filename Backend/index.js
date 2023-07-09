@@ -16,21 +16,24 @@ app.use(cors());
 
 app.post('/shayari',async(req,res)=>{
     let keyword = req.query.keyword;
+    
     try {
-        const prompt = async() =>{
-            const text = `Please provide a shayari that contains word ${keyword} in hindi`;
-            const response = await openai.createCompletion({
+
+        const runprompt = async() =>{
+            let message = `Provide a shayari that contains word ${keyword} in hindi`;
+            let response = await openai.createCompletion({
                 model:"text-davinci-003",
-                prompt:text,
-                max_token:500,
-                n:1
+                prompt:message,
+                max_tokens:500,
+                temperature:1
             });
-            const generatedShayari = response.data.choices[0].text;
+            let generatedShayari = response.data.choices[0].text;
 
             return generatedShayari
         }
-        const shayari = await prompt();
-        res.send(shayari);
+        let shayari = await runprompt();
+        res.json({shayari});
+        
     } catch (error) {
         res.send({error: error.message});
     }
