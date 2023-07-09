@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayari Generator</title>
+    <style>
+        #main{
+            width: 60%;
+            margin: auto;
+            height: 800px;
+            background-color: rgb(179, 135, 54);
+            padding: 10px;
+        }
+        #input{
+            width: 60%;
+            margin: auto;
+        }
+        #output{
+            background-color: white;
+            color: black;
+            width: 50%;
+            height: 480px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 60px;
+            font-size: 30px;
+        }
+        input{
+            border: none;
+            width: 400px;
+            height: 50px;
+            font-size: 20px;
+        }
+        button{
+            border: none;
+            width: 250px;
+            height: 50px;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        h1{
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+        <div id="main">
+            <h1>Shayari Generator</h1>
+            <div id="input">
+                <input id="shy" placeholder="Enter word to generate shayari" type="text">
+                <button onclick="generate()">Generate Shayari</button>
+            </div>
+            <div id="output">
+
+            </div>
+        </div>
+    <script>
+
+        async function shayariKeywords(keywords) {
+            let url = `https://localhost:4500/shayari?keyword=${keywords}`
+            let shy = await fetch(url,{
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json;charset=UTF-8"
+                }
+            });
+            let res=await shy.json();
+            console.log(res);
+            let result = res.shy;
+            console.log(result);
+            return result;
+        }
+        async function generate() {
+            let input = document.getElementById("shy").value;
+            let shayari =  shayariKeywords(input);
+            document.getElementById("output").innerText = shayari
+        }
+    </script>
+</body>
+</html>
