@@ -61,8 +61,8 @@
     <script>
 
         async function shayariKeywords(keywords) {
-            let url = `https://localhost:4500/shayari?keyword=${keywords}`
-            let shy = await fetch(url,{
+            let url = `https://shayari-backend-itux.onrender.com/shayari?keyword=${keywords}`
+            let shy =  await fetch(url,{
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json;charset=UTF-8"
@@ -70,13 +70,15 @@
             });
             let res=await shy.json();
             console.log(res);
-            let result = res.shy;
+             let result = res.shayari;
             console.log(result);
             return result;
         }
+        
         async function generate() {
             let input = document.getElementById("shy").value;
-            let shayari =  shayariKeywords(input);
+            let shayari = await shayariKeywords(input);
+        
             document.getElementById("output").innerText = shayari
         }
     </script>
